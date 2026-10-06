@@ -1,0 +1,59 @@
+name: Release
+
+# Push a tag like v0.2.0 to build and publish a release with:
+#   - fluent-menu_<version>_x64-setup.exe  (NSIS installer)
+#   - fluent-menu_<version>_x64-portable.exe (single exe, no install)
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - uses: dtolnay/rust-toolchain@stable
+
+      - uses: swatinem/rust-cache@v2
+        with:
+          workspaces: src-tauri
+
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm test
+
+      - name: Build installer and publish release
+        uses: tauri-apps/tauri-action@v0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tagName: ${{ github.ref_name }}
+          releaseName: fluent-menu ${{ github.ref_name }}
+          releaseBody: |
+            **Installer:** `fluent-menu_*_x64-setup.exe` installs for the current user (no admin needed) with a Start menu entry and uninstaller.
+            **Portable:** `fluent-menu_*_x64-portable.exe` runs from anywhere, no install. Needs the WebView2 runtime, which Windows 11 already includes.
+          releaseDraft: false
+          prerelease: false
+
+      - name: Upload portable exe
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          $version = (Get-Content src-tauri/tauri.conf.json | ConvertFrom-Json).version
+          $portable = "fluent-menu_${version}_x64-portable.exe"
+          Copy-Item src-tauri/target/release/fluent-menu.exe $portable
+          gh release upload "${{ github.ref_name }}" $portable --clobber
