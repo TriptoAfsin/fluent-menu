@@ -75,6 +75,9 @@ fn load(spec: &str) -> Option<String> {
 
 /// Bare names like `wt.exe` or `notepad.exe` are searched on PATH and in System32.
 pub fn resolve_path(path: &str) -> Option<String> {
+    if let Some(spec) = path.strip_prefix("appx:") {
+        return resolve_appx(spec);
+    }
     let p = std::path::Path::new(path);
     if p.is_absolute() {
         return p.exists().then(|| path.to_string());
@@ -86,15 +89,37 @@ pub fn resolve_path(path: &str) -> Option<String> {
         dirs.push(std::path::Path::new(&root).join("System32"));
         dirs.push(std::path::PathBuf::from(root));
     }
+    // Bare names also match npm/bun shims (gemini.cmd, copilot.cmd, ...).
     let names: Vec<String> = if p.extension().is_some() {
         vec![path.to_string()]
     } else {
-        vec![format!("{path}.exe"), path.to_string()]
+        vec![format!("{path}.exe"), format!("{path}.cmd"), path.to_string()]
     };
     dirs.iter()
         .flat_map(|d| names.iter().map(move |n| d.join(n)))
         .find(|c| c.is_file())
         .map(|c| c.to_string_lossy().to_string())
+}
+
+/// `appx:Microsoft.WindowsTerminal\WindowsTerminal.exe` -> the file inside the installed
+/// Store package. Execution aliases in WindowsApps (wt.exe) carry no icon, the real exe does.
+fn resolve_appx(spec: &str) -> Option<String> {
+    let (family, file) = spec.split_once('\\')?;
+    let repo = winreg::RegKey::predef(winreg::enums::HKEY_CURRENT_USER)
+        .open_subkey(r"Software\Classes\Local Settings\Software\Microsoft\Windows\CurrentVersion\AppModel\Repository\Packages")
+        .ok()?;
+    let prefix = format!("{}_", family.to_lowercase());
+    let mut packages: Vec<String> = repo
+        .enum_keys()
+        .filter_map(Result::ok)
+        .filter(|k| k.to_lowercase().starts_with(&prefix))
+        .collect();
+    packages.sort();
+    packages.iter().rev().find_map(|name| {
+        let root: String = repo.open_subkey(name).ok()?.get_value("PackageRootFolder").ok()?;
+        let candidate = std::path::Path::new(&root).join(file);
+        candidate.is_file().then(|| candidate.to_string_lossy().to_string())
+    })
 }
 
 unsafe fn extract_png(path: &str, index: i32) -> Option<Vec<u8>> {

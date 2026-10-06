@@ -576,3 +576,12 @@ textarea,
   white-space: nowrap;
   min-width: 0;
 }
+
+.inline-code {
+  font-family: var(--mono);
+  font-size: 11.5px;
+  white-space: nowrap;
+  padding: 1px 4px;
+  border-radius: 3px;
+  background: var(--subtle-hover);
+}
