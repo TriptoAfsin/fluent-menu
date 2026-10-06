@@ -44,7 +44,7 @@ export function SettingsPage({
           </span>
           <div className="card-main">
             <div className="card-title">App theme</div>
-            <div className="card-sub">Choose how fluent-menu looks</div>
+            <div className="card-sub">Choose how Fluent Menu looks</div>
           </div>
           <Dropdown
             value={labels[themePref]}
@@ -93,7 +93,7 @@ export function SettingsPage({
             <Info20Regular />
           </span>
           <div className="card-main">
-            <div className="card-title">About fluent-menu</div>
+            <div className="card-title">About Fluent Menu</div>
             <div className="card-sub">
               Version {version} ·{" "}
               <Link onClick={() => openUrl("https://github.com/TriptoAfsin/fluent-menu")}>github.com/TriptoAfsin/fluent-menu</Link>

@@ -50,6 +50,7 @@ body {
 }
 
 /* Mica: let the backdrop through. */
+html[data-mica="true"],
 html[data-mica="true"] body {
   background: transparent;
 }

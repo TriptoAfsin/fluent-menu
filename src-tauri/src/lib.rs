@@ -218,6 +218,15 @@ pub fn run() {
                         .effect(tauri::window::Effect::Mica)
                         .build(),
                 );
+                // The window starts hidden to avoid WebView2's white first paint;
+                // the UI shows it after its first render. Fallback in case it never does.
+                let w = window.clone();
+                std::thread::spawn(move || {
+                    std::thread::sleep(std::time::Duration::from_secs(3));
+                    if !w.is_visible().unwrap_or(true) {
+                        let _ = w.show();
+                    }
+                });
             }
             Ok(())
         })

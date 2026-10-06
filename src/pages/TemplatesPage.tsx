@@ -316,7 +316,7 @@ export function TemplatesPage({ locations }: { locations: Location[] }) {
           const exe = await api.resolveProgram(t.candidates).catch(() => null);
           // CLI shims (.cmd) and some exes carry no icon; show Terminal's instead.
           const hasIcon = !!exe && /\.exe$/i.test(exe) && !!(await api.iconFor(exe).catch(() => null));
-          return { id: t.id, exe, icon: hasIcon ? exe : wtIcon };
+          return { id: t.id, exe, icon: hasIcon ? exe : exe ? wtIcon : null };
         }),
       );
       setIcons(Object.fromEntries(resolved.map((r) => [r.id, r.icon])));

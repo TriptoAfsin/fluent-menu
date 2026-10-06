@@ -1,8 +1,8 @@
 <p align="center">
-  <img src="app-icon.svg" width="96" height="96" alt="fluent-menu icon">
+  <img src="app-icon.svg" width="96" height="96" alt="Fluent Menu icon">
 </p>
 
-<h1 align="center">fluent-menu</h1>
+<h1 align="center">Fluent Menu</h1>
 
 <p align="center">
   A Windows 11 style manager for the Explorer right-click menu.<br>
@@ -37,7 +37,7 @@
   - **Editors:** VS Code, VS Code Insiders, Cursor, Windsurf, Kiro, Antigravity, Zed, Sublime Text and Notepad++.
   - **Terminals and shells:** Windows Terminal, PowerShell 7, Windows PowerShell, Command Prompt, WSL, Git Bash, WezTerm and Alacritty.
   - **Git and file tools:** lazygit, GitHub Desktop and Yazi.
-- **Nilesoft Shell editor.** When [Nilesoft Shell](https://nilesoft.org) is installed, fluent-menu detects it and lets you edit `shell.nss` and its imports as a tree. You can add, edit, move and delete items, menus and separators. Anything it doesn't model visually (settings, `modify`, `remove`, variables) is kept byte for byte and can be edited as text. There's also a Source view.
+- **Nilesoft Shell editor.** When [Nilesoft Shell](https://nilesoft.org) is installed, Fluent Menu detects it and lets you edit `shell.nss` and its imports as a tree. You can add, edit, move and delete items, menus and separators. Anything it doesn't model visually (settings, `modify`, `remove`, variables) is kept byte for byte and can be edited as text. There's also a Source view.
 - **Backups.** Every edit, delete and Nilesoft save is backed up first, and you can restore from the Backups page.
 - **Import and export `.reg` files.**
 - **Admin only when needed.** Entries for just you need no admin rights. Changing all-users entries prompts once, or you can restart as administrator.
@@ -49,8 +49,8 @@ Download from [Releases](https://github.com/TriptoAfsin/fluent-menu/releases/lat
 
 | File | What it is |
 | --- | --- |
-| `fluent-menu_<version>_x64-setup.exe` | Installer. Installs for the current user, adds a Start menu entry and an uninstaller. |
-| `fluent-menu_<version>_x64-portable.exe` | Portable. A single exe you can run from anywhere. |
+| `Fluent-Menu_<version>_x64-setup.exe` | Installer. Installs for the current user, adds a Start menu entry and an uninstaller. |
+| `Fluent-Menu_<version>_x64-portable.exe` | Portable. A single exe you can run from anywhere. |
 
 Both need the WebView2 runtime, which ships with Windows 11 and up-to-date Windows 10.
 

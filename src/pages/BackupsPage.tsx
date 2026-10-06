@@ -58,7 +58,7 @@ export function BackupsPage({ backupsDir }: { backupsDir: string }) {
       <div className="page-header">
         <div className="grow">
           <h1>Backups</h1>
-          <p>fluent-menu saves a copy before every edit, delete and Nilesoft save.</p>
+          <p>Fluent Menu saves a copy before every edit, delete and Nilesoft save.</p>
         </div>
         <div className="page-actions">
           <Button icon={<ArrowClockwise20Regular />} onClick={refresh} aria-label="Refresh" />

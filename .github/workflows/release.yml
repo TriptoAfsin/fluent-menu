@@ -1,8 +1,8 @@
 name: Release
 
 # Push a tag like v0.2.0 to build and publish a release with:
-#   - fluent-menu_<version>_x64-setup.exe  (NSIS installer)
-#   - fluent-menu_<version>_x64-portable.exe (single exe, no install)
+#   - Fluent-Menu_<version>_x64-setup.exe     (NSIS installer)
+#   - Fluent-Menu_<version>_x64-portable.exe  (single exe, no install)
 on:
   push:
     tags: ["v*"]
@@ -35,25 +35,30 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm test
 
-      - name: Build installer and publish release
-        uses: tauri-apps/tauri-action@v0
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tagName: ${{ github.ref_name }}
-          releaseName: fluent-menu ${{ github.ref_name }}
-          releaseBody: |
-            **Installer:** `fluent-menu_*_x64-setup.exe` installs for the current user (no admin needed) with a Start menu entry and uninstaller.
-            **Portable:** `fluent-menu_*_x64-portable.exe` runs from anywhere, no install. Needs the WebView2 runtime, which Windows 11 already includes.
-          releaseDraft: false
-          prerelease: false
+      - name: Build installer
+        run: pnpm tauri build
 
-      - name: Upload portable exe
+      # The product name has a space, so name the assets ourselves instead of
+      # letting GitHub turn "Fluent Menu_..." into "Fluent.Menu_...".
+      - name: Publish release
         shell: pwsh
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           $version = (Get-Content src-tauri/tauri.conf.json | ConvertFrom-Json).version
-          $portable = "fluent-menu_${version}_x64-portable.exe"
+          $setup = "Fluent-Menu_${version}_x64-setup.exe"
+          $portable = "Fluent-Menu_${version}_x64-portable.exe"
+          Copy-Item (Get-ChildItem src-tauri/target/release/bundle/nsis/*-setup.exe | Select-Object -First 1).FullName $setup
           Copy-Item src-tauri/target/release/fluent-menu.exe $portable
-          gh release upload "${{ github.ref_name }}" $portable --clobber
+          $notes = @"
+          **Installer:** ``$setup`` installs for the current user (no admin needed) with a Start menu entry and uninstaller.
+
+          **Portable:** ``$portable`` runs from anywhere, no install. Needs the WebView2 runtime, which Windows 11 already includes.
+          "@
+          $tag = "${{ github.ref_name }}"
+          gh release view $tag *> $null
+          if ($LASTEXITCODE -eq 0) {
+            gh release upload $tag $setup $portable --clobber
+          } else {
+            gh release create $tag $setup $portable --title "Fluent Menu $tag" --notes $notes
+          }

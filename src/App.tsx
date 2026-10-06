@@ -88,7 +88,7 @@ export default function App() {
   useEffect(() => {
     api.systemInfo().then((info) => {
       setSys(info);
-      if (info.elevated) getCurrentWindow().setTitle("fluent-menu (Administrator)").catch(() => {});
+      if (info.elevated) getCurrentWindow().setTitle("Fluent Menu (Administrator)").catch(() => {});
     });
     api.listLocations().then(setLocations);
     api
@@ -103,6 +103,17 @@ export default function App() {
     // Keep the Mica tint in step with the content theme.
     api.setWindowDark(dark).catch(() => {});
   }, [dark, sys?.mica]);
+
+  // The window starts hidden (see tauri.conf.json) so WebView2 never flashes white.
+  // Show it once the theme is applied and a frame with it has painted.
+  useEffect(() => {
+    if (!sys) return;
+    requestAnimationFrame(() =>
+      requestAnimationFrame(() => {
+        getCurrentWindow().show().catch(() => {});
+      }),
+    );
+  }, [sys]);
 
   const theme = useMemo(
     () => makeTheme(dark, sys?.accentColor ?? "#0078d4"),
@@ -178,7 +189,7 @@ export default function App() {
                         <MessageBarTitle>
                           Nilesoft Shell {nilesoft.version ?? ""} detected
                         </MessageBarTitle>
-                        Your Explorer menu is driven by Nilesoft. fluent-menu
+                        Your Explorer menu is driven by Nilesoft. Fluent Menu
                         can edit its {nilesoft.files.length} config files
                         visually.
                       </MessageBarBody>

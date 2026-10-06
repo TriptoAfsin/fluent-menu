@@ -384,7 +384,7 @@ pub fn set_handler_blocked(clsid: &str, blocked: bool) -> Result<(), String> {
     let mut w = RegWriter::new();
     w.key(Hive::HKLM, BLOCKED_KEY);
     if blocked {
-        w.string(clsid, "Blocked by fluent-menu");
+        w.string(clsid, "Blocked by Fluent Menu");
     } else {
         w.delete_value(clsid);
     }

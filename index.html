@@ -4,7 +4,12 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/png" href="/app-icon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>fluent-menu</title>
+    <title>Fluent Menu</title>
+    <style>
+      /* Theme-colored first paint, before the app's CSS loads. */
+      html { background: #f3f3f3; }
+      @media (prefers-color-scheme: dark) { html { background: #202020; } }
+    </style>
   </head>
   <body>
     <div id="root"></div>

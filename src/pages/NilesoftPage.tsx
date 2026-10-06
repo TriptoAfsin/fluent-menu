@@ -456,7 +456,7 @@ export function NilesoftPage({ info, onChanged }: { info: NilesoftInfo; onChange
             <div className="pane-body">
               {!selectedNode && (
                 <div style={{ padding: 16, color: "var(--text-2)", fontSize: 13 }}>
-                  Select an entry to edit it. Statements fluent-menu doesn't model visually (settings, modify, remove, variables) show as code
+                  Select an entry to edit it. Statements Fluent Menu doesn't model visually (settings, modify, remove, variables) show as code
                   and can be edited as text.
                 </div>
               )}

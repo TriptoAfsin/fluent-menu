@@ -87,7 +87,7 @@ pub fn list() -> Vec<Backup> {
 pub fn delete(path: &str) -> Result<(), String> {
     let p = Path::new(path);
     if !p.starts_with(root_dir()) {
-        return Err("Not a fluent-menu backup.".into());
+        return Err("Not a Fluent Menu backup.".into());
     }
     std::fs::remove_file(p).map_err(|e| e.to_string())
 }

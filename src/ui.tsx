@@ -142,7 +142,7 @@ type AdminAsk = (reason: string) => Promise<boolean>;
 const AdminContext = createContext<{ elevated: boolean; ask: AdminAsk }>({ elevated: false, ask: async () => true });
 
 /**
- * Before a change that needs admin rights, offers to restart fluent-menu elevated
+ * Before a change that needs admin rights, offers to restart Fluent Menu elevated
  * (no more prompts) or to continue with a one-off UAC prompt.
  */
 export function AdminProvider({ elevated, children }: { elevated: boolean; children: ReactNode }) {

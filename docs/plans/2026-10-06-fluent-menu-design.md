@@ -1,4 +1,4 @@
-# fluent-menu design
+# Fluent Menu design
 
 Date: 2026-10-06
 
