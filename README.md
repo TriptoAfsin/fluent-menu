@@ -1,8 +1,30 @@
-# fluent-menu
+<p align="center">
+  <img src="app-icon.svg" width="96" height="96" alt="fluent-menu icon">
+</p>
 
-A Windows 11 style manager for the Explorer right-click menu. Create, edit, hide and remove context menu entries without touching `regedit`, and edit Nilesoft Shell menus visually.
+<h1 align="center">fluent-menu</h1>
 
-![fluent-menu](app-icon.svg)
+<p align="center">
+  A Windows 11 style manager for the Explorer right-click menu.<br>
+  Create, edit, hide and remove context menu entries without touching <code>regedit</code>, and edit Nilesoft Shell menus visually.
+</p>
+
+<p align="center">
+  <a href="https://github.com/TriptoAfsin/fluent-menu/releases/latest">Download</a>
+</p>
+
+![Menu entries for the folder background](docs/screenshots/menu-entries.png)
+
+<table>
+  <tr>
+    <td><img src="docs/screenshots/templates.png" alt="Templates for AI coding agents, editors and terminals"></td>
+    <td><img src="docs/screenshots/nilesoft-editor.png" alt="Nilesoft Shell visual editor"></td>
+  </tr>
+  <tr>
+    <td align="center">Templates</td>
+    <td align="center">Nilesoft Shell editor</td>
+  </tr>
+</table>
 
 ## Features
 
@@ -10,7 +32,11 @@ A Windows 11 style manager for the Explorer right-click menu. Create, edit, hide
 - **Create entries and submenus.** Pick a title, icon and command. One click wraps a command so it opens in Windows Terminal at the folder you right-clicked.
 - **Hide without deleting.** Turning an entry off uses Windows' own `LegacyDisable` flag, so turning it back on restores it exactly.
 - **Shell extensions.** Turn COM context menu handlers (7-Zip, Git, etc.) on and off.
-- **Templates.** Ready-made entries for programs found on your PC: Claude Code (normal and `--dangerously-skip-permissions`), Windows Terminal, VS Code, Cursor, PowerShell 7, Command Prompt and Git Bash.
+- **Templates.** 25 ready-made entries for programs found on your PC, with search and an installed-only filter:
+  - **AI coding agents:** Claude Code, OpenAI Codex, Gemini CLI and GitHub Copilot CLI. Each one is a submenu with a normal launch plus its no-prompts mode. There's also opencode.
+  - **Editors:** VS Code, VS Code Insiders, Cursor, Windsurf, Kiro, Antigravity, Zed, Sublime Text and Notepad++.
+  - **Terminals and shells:** Windows Terminal, PowerShell 7, Windows PowerShell, Command Prompt, WSL, Git Bash, WezTerm and Alacritty.
+  - **Git and file tools:** lazygit, GitHub Desktop and Yazi.
 - **Nilesoft Shell editor.** When [Nilesoft Shell](https://nilesoft.org) is installed, fluent-menu detects it and lets you edit `shell.nss` and its imports as a tree. You can add, edit, move and delete items, menus and separators. Anything it doesn't model visually (settings, `modify`, `remove`, variables) is kept byte for byte and can be edited as text. There's also a Source view.
 - **Backups.** Every edit, delete and Nilesoft save is backed up first, and you can restore from the Backups page.
 - **Import and export `.reg` files.**
