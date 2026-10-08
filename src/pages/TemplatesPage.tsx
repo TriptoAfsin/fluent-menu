@@ -62,9 +62,22 @@ const TEMPLATES: Template[] = [
     id: "claude",
     name: "Claude Code",
     group: "AI coding agents",
-    description: "Claude submenu: open Claude Code in Windows Terminal, normally or with --dangerously-skip-permissions.",
+    description:
+      "Claude submenu: open or --resume Claude Code in Windows Terminal, normally or with --dangerously-skip-permissions.",
     candidates: ["%USERPROFILE%\\.local\\bin\\claude.exe", "claude"],
-    build: (exe, icon) => agentMenu("Claude", exe, icon, "skip permissions", "--dangerously-skip-permissions"),
+    build: (exe, icon) => {
+      const menu = agentMenu("Claude", exe, icon, "skip permissions", "--dangerously-skip-permissions");
+      menu.children!.push(
+        { title: "Resume Claude here", command: inTerminal(exe, "--resume"), icon, kind: "command", separatorBefore: true },
+        {
+          title: "Resume Claude here (skip permissions)",
+          command: inTerminal(exe, "--resume --dangerously-skip-permissions"),
+          icon,
+          kind: "command",
+        },
+      );
+      return menu;
+    },
   },
   {
     id: "codex",
